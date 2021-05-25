@@ -3394,7 +3394,7 @@ class CMAEvolutionStrategy(interfaces.OOOptimizer):
 
     def disp_annotation(self):
         """print annotation line for `disp` ()"""
-        print('Iterat   #Fevals       Min function value             Mean function value         axis ratio         sigma             min&max std      t[m:s]')
+        #print('Iterat   #Fevals       Min function value             Mean function value         axis ratio         sigma             min&max std      t[m:s]')
         print('Iterat |  #Fevals |  Min feval  |  Mean feval  |  axis ratio  |    sigma   |    min&max std  |   t[m:s]')
         sys.stdout.flush()
 
