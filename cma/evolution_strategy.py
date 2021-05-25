@@ -3395,6 +3395,7 @@ class CMAEvolutionStrategy(interfaces.OOOptimizer):
     def disp_annotation(self):
         """print annotation line for `disp` ()"""
         print('Iterat   #Fevals       Min function value             Mean function value         axis ratio         sigma             min&max std      t[m:s]')
+        print('Iterat |  #Fevals |  Min feval  |  Mean feval  |  axis ratio  |    sigma   |    min&max std  |   t[m:s]')
         sys.stdout.flush()
 
     def disp(self, modulo=None):
@@ -3426,18 +3427,30 @@ class CMAEvolutionStrategy(interfaces.OOOptimizer):
                     stime = str(int(toc // 60)) + ':' + ("%2.1f" % (toc % 60)).rjust(4, '0')
                 else:
                     stime = ''
+                # print(' '.join((repr(self.countiter).rjust(5),
+                #                 repr(self.countevals).rjust(6),
+                #                 '        %.15e' % (min(self.fit.fit)),         # Min function value 
+                #                 '        %.15e' % (np.mean(self.fit.fit)),     # Mean function value 
+                #                 '        %4.1e' % (self.D.max() / self.D.min() # Axis ratio
+                #                            if not self.opts['CMA_diagonal'] or self.countiter > self.opts['CMA_diagonal'] 
+                #                            else max(self.sigma_vec*1) / min(self.sigma_vec*1)),
+                #                 '        %6.2e' % self.sigma,                          # Sigma
+                #                 '        %6.0e' % (self.sigma * min(self.sigma_vec * self.dC**0.5)), # min std
+                #                 ' & %6.0e' % (self.sigma * max(self.sigma_vec * self.dC**0.5)), # max std
+                #                 stime)))
                 print(' '.join((repr(self.countiter).rjust(5),
                                 repr(self.countevals).rjust(6),
-                                '        %.15e' % (min(self.fit.fit)),         # Min function value 
-                                '        %.15e' % (np.mean(self.fit.fit)),     # Mean function value 
-                                '        %4.1e' % (self.D.max() / self.D.min() # Axis ratio
+                                '        %i'.ljust(5) % (min(self.fit.fit)),         # Min function value 
+                                '            %i'.ljust(5) % (np.mean(self.fit.fit)),     # Mean function value 
+                                '            %1.1f'.center(5) % (self.D.max() / self.D.min() # Axis ratio
                                            if not self.opts['CMA_diagonal'] or self.countiter > self.opts['CMA_diagonal'] 
                                            else max(self.sigma_vec*1) / min(self.sigma_vec*1)),
-                                '        %6.2e' % self.sigma,                          # Sigma
-                                '        %6.0e' % (self.sigma * min(self.sigma_vec * self.dC**0.5)), # min std
-                                ' & %6.0e' % (self.sigma * max(self.sigma_vec * self.dC**0.5)), # max std
+                                '        %1.3f'.center(5) % self.sigma,                          # Sigma
+                                '      %1.3f'.center(5) % (self.sigma * min(self.sigma_vec * self.dC**0.5)), # min std
+                                ' & %1.3f'.center(5) % (self.sigma * max(self.sigma_vec * self.dC**0.5)), # max std
                                 stime)))
                 # if self.countiter < 4:
+                sys.stdout.flush()
                 sys.stdout.flush()
         return self
     def plot(self, *args, **kwargs):
